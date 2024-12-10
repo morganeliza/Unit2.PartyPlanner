@@ -81,6 +81,15 @@ function renderEvents() {
         const h2 = document.createElement("h2");
         h2.textContent = event.description;
 
+
+        //H3 for Date
+        const h3 = document.createElement("h3");
+        h3.textContent = event.date;
+
+        //H4 for Location
+        const h4 = document.createElement("h4");
+        h4.textContent = event.location;
+
         //Button to Delete the Event
         const deleteButton = document.createElement("button");
         deleteButton.textContent = "Delete";
@@ -89,7 +98,7 @@ function renderEvents() {
             await deleteEvent(event);
         });
 
-        card.append(h1, h2, deleteButton);
+        card.append(h1, h2, h3, h4, deleteButton);
         return card;
     });
 
@@ -110,14 +119,15 @@ const form = document.getElementById("addEvent");
 form.addEventListener("submit", async (event) => {
     event.preventDefault();
 
-    const event = {
+    const eventDate = new Date(form.date.value).toISOString();
+    const party = {
         name: form.partyName.value,
-        date: form.date.value,
-        time: form.time.value,
+        date: eventDate,
+        // time: form.time.value,
         location: form.location.value,
         description: form.description.value,
     };
 
-    await addEvent(event);
+    await addEvent(party);
     render();
 });
